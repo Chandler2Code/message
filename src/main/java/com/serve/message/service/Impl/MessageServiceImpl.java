@@ -9,10 +9,13 @@ import com.serve.message.enums.ResultEnum;
 import com.serve.message.exception.ServeException;
 import com.serve.message.respository.MessageRespository;
 import com.serve.message.service.MessageService;
+import com.serve.message.util.ConvertUtil;
 import com.serve.message.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,5 +65,9 @@ public class MessageServiceImpl implements MessageService {
     /**
      * 通过openi查询订单列表
      */
+    @Override
+    public Page<MessageDTO> findListByOpenId(String openid, Pageable pageable) {
+        return null;
+    }
 }
 
