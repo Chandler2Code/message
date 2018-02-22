@@ -40,7 +40,7 @@ public interface MessageService {
      */
     MessageDTO paid(MessageDTO messageDTO);
     /**
-     * 查询订单是否属于本人
+     * 7.查询订单是否属于本人
      */
     MessageDTO check(String openid,String messageid);
 }

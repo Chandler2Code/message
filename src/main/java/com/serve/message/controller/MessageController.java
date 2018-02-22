@@ -45,6 +45,7 @@ public class MessageController {
                                      bindingResult.getFieldError().getDefaultMessage());
         }
 
+        //TODO 创建一个用户对象
         MessageDTO messageDTO = MessageForm2MessageDTO.convert(messageForm);
         /**
          * 手工输入用户信息，后面或专门构造一个用户对象用户传输用户信息  在service层实现
@@ -77,7 +78,7 @@ public class MessageController {
     public ResultVO cancel(@RequestParam("openId") String openId,
                            @RequestParam("messageId")String messageId){
         /**
-         *判断messageId是否属于该用户
+         * 判断messageId是否属于该用户
          */
         MessageDTO messageDTO = messageService.check(openId,messageId);
         messageService.cancel(messageDTO);

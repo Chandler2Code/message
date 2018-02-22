@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,18 +44,34 @@ public class MessageRespositoryTest {
         respository.save(message);
     }
 
-//    @Test
-//    public void findByOpenId(){
-//        PageRequest request = new PageRequest(0,1);
-//        Page<Message> result =  respository.findByOpenId("abcdefg",request);
-//        Assert.assertNotEquals(0,result.getTotalElements());
-//    }
+    @Test
+    public void findByOpenId(){
+        PageRequest request = new PageRequest(0,1);
+        Page<Message> result =  respository.findByOpenId("abcdefg",request);
+        Assert.assertNotEquals(0,result.getTotalElements());
+    }
 
     @Test
     public void findByMessageId(){
         Message message = respository.findByMessageId("1519298469786407936");
         log.info("【查询发布消息】message={}",message);
         Assert.assertNotNull(message);
+    }
+
+    /**
+     * 通过时间查询数据
+     */
+    @Test
+    public void findByDateTest(){
+        Calendar calendar =  Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH,22);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+//        calendar.set(Calendar.MINUTE,0);
+//        calendar.set(Calendar.SECOND,0);
+//        calendar.set(Calendar.MILLISECOND,0);
+        Date createTime = calendar.getTime();
+        List<Message>messageList = respository.findByCreateTimeLike(createTime);
+        Assert.assertNotEquals(0,messageList.size());
     }
 
 }
