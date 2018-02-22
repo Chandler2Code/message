@@ -48,7 +48,7 @@ public class MessageServiceImplTest {
         messageDTO.setName("Chandler");
         messageDTO.setAvater("http://www.xw.qqcom.xxfj");
         messageDTO.setPhone("18382469064");
-        messageDTO.setMessageType(1);
+        messageDTO.setMessageType("1");
         messageDTO.setOpenId("xxx465482");
         MessageDTO result = messageService.create(messageDTO);
         log.info("【创建订单】result={}",result);

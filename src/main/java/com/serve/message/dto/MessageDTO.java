@@ -56,7 +56,7 @@ public class MessageDTO {
     /**
      * 11.消息类别
      */
-    private Integer messageType;
+    private String messageType;
     /**
      * 12.支付金额
      */

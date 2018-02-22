@@ -9,6 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public enum ResultEnum {
+    PARAM_ERROR(9,"参数不正确"),
     MESSAGE_NOT_EXIST(10,"消息不存在"),
     MESSAGEORDER_UPDATE_FAIL(11,"更新失败"),
     MESSAGEORDER_STATUS_ERROR(12,"订单状态不正确"),

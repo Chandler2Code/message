@@ -36,7 +36,7 @@ public class MessageRespositoryTest {
         message.setPhone("18382469064");
         message.setAvater("http://www.xw.qqcom.xxfj");
         message.setName("Jack");
-        message.setMessageType(0);
+        message.setMessageType("0");
         respository.save(message);
     }
 

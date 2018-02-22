@@ -74,6 +74,14 @@ public class MessageServiceImpl implements MessageService {
         return new PageImpl<MessageDTO>(messageDTOList,pageable,messagePage.getTotalElements());
     }
     /**
+     * 查询所有发布消息
+     */
+    @Override
+    public Page<MessageDTO> findList(Pageable pageable) {
+        return null;
+    }
+
+    /**
      * 撤销发布  修改发布订单的状态
      */
     @Override
