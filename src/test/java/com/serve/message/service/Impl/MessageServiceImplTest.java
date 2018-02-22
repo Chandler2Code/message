@@ -2,6 +2,8 @@ package com.serve.message.service.Impl;
 
 import com.serve.message.dto.MessageDTO;
 import com.serve.message.entity.Message;
+import com.serve.message.enums.MessagePayStatusEnum;
+import com.serve.message.enums.MessageStatusEnum;
 import com.serve.message.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -9,6 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -26,8 +30,12 @@ import static org.junit.Assert.*;
 @Slf4j
 public class MessageServiceImplTest {
 
+
     @Autowired
     private MessageService messageService;
+
+    private final String OPENID = "xxx465482";
+    private final String MESSAGEID = "1519262655330913515";
     /**
      * 创建订单测试类
      */
@@ -51,9 +59,40 @@ public class MessageServiceImplTest {
      */
     @Test
     public  void findOneTest(){
-        String messageId = "151922223845423064";
-        MessageDTO result = messageService.findByMessageId(messageId);
+        MessageDTO result = messageService.findByMessageId(MESSAGEID);
         log.info("【查询发布订单】result={}",result);
         Assert.assertNotNull(result);
     }
+
+    /**
+     * 通过openid查询订单列表
+     */
+    @Test
+    public void findList(){
+        PageRequest request = new PageRequest(0,2);
+        Page<MessageDTO>messageDTOPage = messageService.findListByOpenId(OPENID,request);
+        log.info("【查询列表】result={}",messageDTOPage);
+        Assert.assertNotEquals(0,messageDTOPage.getTotalElements());
+    }
+
+    /**
+     * 撤销订单测试类（修改订单状态）
+     */
+    @Test
+    public void cancelTest(){
+        MessageDTO messageDTO = messageService.findByMessageId(MESSAGEID);
+        MessageDTO result = messageService.cancel(messageDTO);
+        Assert.assertEquals(MessageStatusEnum.CANCEL.getCode(),result.getMessageStatus());
+    }
+
+    /**
+     * 支付发布费测试类
+     */
+    @Test
+    public void payTest(){
+        MessageDTO messageDTO = messageService.findByMessageId(MESSAGEID);
+        MessageDTO result = messageService.paid(messageDTO);
+        Assert.assertEquals(MessagePayStatusEnum.SUCCESS.getCode(),result.getPayStatus());
+    }
+
 }

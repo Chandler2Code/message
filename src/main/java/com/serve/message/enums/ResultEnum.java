@@ -9,7 +9,11 @@ import lombok.Getter;
  */
 @Getter
 public enum ResultEnum {
-    MESSAGE_NOT_EXIST(10,"消息不存在")
+    MESSAGE_NOT_EXIST(10,"消息不存在"),
+    MESSAGEORDER_UPDATE_FAIL(11,"更新失败"),
+    MESSAGEORDER_STATUS_ERROR(12,"订单状态不正确"),
+    MESSAGEORDER_PAY_STATUS_ERROR(13,"订单支付状态不正确"),
+    MESSAGEORDER_PAY_FAIL(14,"订单支付失败")
     ;
     private Integer code;
     private String msg;

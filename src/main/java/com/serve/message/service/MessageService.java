@@ -27,12 +27,12 @@ public interface MessageService {
      * 3.通过openid查询发布列表
      */
     Page<MessageDTO>findListByOpenId(String openid, Pageable pageable);
-//    /**
-//     * 4.取消发布
-//     */
-//    Message cancel(Message message);
-//    /**
-//     * 5.支付
-//     */
-//    Message paid(Message message);
+    /**
+     * 4.取消发布
+     */
+    MessageDTO cancel(MessageDTO messageDTO);
+    /**
+     * 5.支付发布费
+     */
+    MessageDTO paid(MessageDTO messageDTO);
 }

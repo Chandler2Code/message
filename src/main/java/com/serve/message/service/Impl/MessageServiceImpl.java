@@ -1,22 +1,24 @@
 package com.serve.message.service.Impl;
 
+import com.serve.message.converter.Message2MessageDTOConverter;
 import com.serve.message.dto.MessageDTO;
 import com.serve.message.entity.Message;
 import com.serve.message.enums.MessageAmuontEnum;
 import com.serve.message.enums.MessageStatusEnum;
-import com.serve.message.enums.PayStatusEnum;
+import com.serve.message.enums.MessagePayStatusEnum;
 import com.serve.message.enums.ResultEnum;
 import com.serve.message.exception.ServeException;
 import com.serve.message.respository.MessageRespository;
 import com.serve.message.service.MessageService;
-import com.serve.message.util.ConvertUtil;
 import com.serve.message.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,14 +44,14 @@ public class MessageServiceImpl implements MessageService {
         messageDTO.setMessageId(orderId);
         Message message = new Message();
         BeanUtils.copyProperties(messageDTO,message);
-        message.setPayStatus(PayStatusEnum.WAIT.getCode());
+        message.setPayStatus(MessagePayStatusEnum.WAIT.getCode());
         message.setMessageStatus(MessageStatusEnum.NEW.getCode());
         message.setMessageAmount(MessageAmuontEnum.ORDINARY.getCode());
         messageRespository.save(message);
         return messageDTO;
     }
     /**
-     * 通过发布订单id查询订单信息
+     * 通过发布订单id查询发布订单信息
      */
     @Override
     public MessageDTO findByMessageId(String messageId) {
@@ -63,11 +65,55 @@ public class MessageServiceImpl implements MessageService {
         return messageDTO;
     }
     /**
-     * 通过openi查询订单列表
+     * 通过openid查询发布订单列表(分页查询)
      */
     @Override
     public Page<MessageDTO> findListByOpenId(String openid, Pageable pageable) {
-        return null;
+        Page<Message>messagePage = messageRespository.findByOpenId(openid,pageable);
+        List<MessageDTO>messageDTOList = Message2MessageDTOConverter.convert(messagePage.getContent());
+        return new PageImpl<MessageDTO>(messageDTOList,pageable,messagePage.getTotalElements());
+    }
+    /**
+     * 撤销发布  修改发布订单的状态
+     */
+    @Override
+    public MessageDTO cancel(MessageDTO messageDTO) {
+        Message message = new Message();
+        messageDTO.setMessageStatus(MessageStatusEnum.CANCEL.getCode());
+        BeanUtils.copyProperties(messageDTO,message);
+        Message updateResult =  messageRespository.save(message);
+        if(updateResult == null){
+            log.error("【更新失败】message = {}",message);
+            throw new ServeException(ResultEnum.MESSAGE_NOT_EXIST);
+        }
+        return messageDTO;
+    }
+    /**
+     * 支付发布费
+     */
+    @Override
+    @Transactional
+    public MessageDTO paid(MessageDTO messageDTO) {
+        //1.判断订单状态
+        if(!messageDTO.getMessageStatus().equals(MessageStatusEnum.NEW.getCode())){
+            log.error("【订单已支付并撤销发布】订单状态不正确messageStatus = {}",messageDTO.getMessageStatus());
+            throw new ServeException(ResultEnum.MESSAGEORDER_STATUS_ERROR);
+        }
+        //2.判断支付状态
+        if(!messageDTO.getPayStatus().equals(MessagePayStatusEnum.WAIT.getCode())){
+            log.error("【订单已经支付，不能重复支付】订单支付状态不正确messagePayStatus = {}",messageDTO.getPayStatus());
+            throw new ServeException(ResultEnum.MESSAGEORDER_PAY_STATUS_ERROR);
+        }
+        //3.修改支付状态
+        Message message = new Message();
+        messageDTO.setPayStatus(MessagePayStatusEnum.SUCCESS.getCode());
+        BeanUtils.copyProperties(messageDTO,message);
+        Message updateResult =  messageRespository.save(message);
+        if(updateResult == null){
+            log.error("【订单支付失败】message = {}",message);
+            throw new ServeException(ResultEnum.MESSAGEORDER_PAY_FAIL);
+        }
+        return messageDTO;
     }
 }
 

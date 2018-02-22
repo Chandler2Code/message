@@ -9,8 +9,8 @@ import lombok.Getter;
  */
 @Getter
 public enum MessageStatusEnum {
-    NEW(0,"新订单"),
-    CANCEL(1,"已取消")
+    NEW(0,"新发布"),
+    CANCEL(1,"撤销发布")
     ;
 
     private Integer code;

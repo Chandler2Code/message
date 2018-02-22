@@ -12,7 +12,7 @@ import javax.validation.Valid;
 /*Created by Chandler
  *createDate:2018/2/20
  *createTime:20:59
- *Message的controller实现
+ *消息发布的controller实现
  */
 @RestController
 @Slf4j

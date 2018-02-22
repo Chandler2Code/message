@@ -1,7 +1,7 @@
 package com.serve.message.entity;
 
 import com.serve.message.enums.MessageStatusEnum;
-import com.serve.message.enums.PayStatusEnum;
+import com.serve.message.enums.MessagePayStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -22,11 +22,11 @@ public class Message {
     /**
      * 1.主键openid
      */
-    @Id
     private String openId;
     /**
      * 2.消息id
      */
+    @Id
     private String messageId;
     /**
      * 3.消息标题
@@ -59,7 +59,7 @@ public class Message {
     /**
      * 10.支付状态 默认为等待支付
      */
-    private Integer payStatus = PayStatusEnum.WAIT.getCode();
+    private Integer payStatus = MessagePayStatusEnum.WAIT.getCode();
     /**
      * 11.消息类别
      */
