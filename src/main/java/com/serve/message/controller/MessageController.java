@@ -59,7 +59,7 @@ public class MessageController {
         map.put("messageId",createResult.getMessageId());
         return ResultVOUtil.success(map);
     }
-    //查询发布列表
+    //查询发布列表--通过openid
     @GetMapping("/list")
     public ResultVO<List<MessageDTO>> listByOpenId(@RequestParam("openid") String openid,
                                                    @RequestParam(value = "page",defaultValue = "0") Integer page,
@@ -72,6 +72,14 @@ public class MessageController {
         PageRequest request = new PageRequest(page,size);
         Page<MessageDTO>messageDTOPage = messageService.findListByOpenId(openid,request);
         return  ResultVOUtil.success(messageDTOPage.getContent());
+    }
+    //查询发布列表--直接查询
+    @GetMapping("/all")
+    public ResultVO<List<MessageDTO>> allMessage(@RequestParam(value = "page",defaultValue = "0") Integer page,
+                                                 @RequestParam(value = "size",defaultValue = "10") Integer size){
+        PageRequest request = new PageRequest(page,size);
+        Page<MessageDTO>messageDTOPage = messageService.findList(request);
+        return ResultVOUtil.success(messageDTOPage.getContent());
     }
     //取消发布（修改订单状态）
     @PostMapping("/cancel")

@@ -75,10 +75,13 @@ public class MessageServiceImpl implements MessageService {
     }
     /**
      * 查询所有发布消息
+     * TODO  用SpecificationExecutor实现按照天数查找
      */
     @Override
     public Page<MessageDTO> findList(Pageable pageable) {
-        return null;
+        Page<Message> messagePage = messageRespository.findAll(pageable);
+        List<MessageDTO>messageDTOList = Message2MessageDTOConverter.convert(messagePage.getContent());
+        return new PageImpl<MessageDTO>(messageDTOList,pageable,messagePage.getTotalElements());
     }
 
     /**

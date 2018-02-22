@@ -62,16 +62,10 @@ public class MessageRespositoryTest {
      * 通过时间查询数据
      */
     @Test
-    public void findByDateTest(){
-        Calendar calendar =  Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH,22);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-//        calendar.set(Calendar.MINUTE,0);
-//        calendar.set(Calendar.SECOND,0);
-//        calendar.set(Calendar.MILLISECOND,0);
-        Date createTime = calendar.getTime();
-        List<Message>messageList = respository.findByCreateTimeLike(createTime);
-        Assert.assertNotEquals(0,messageList.size());
+    public void findAll(){
+        PageRequest request = new PageRequest(0,10);
+        Page<Message>messagePage = respository.findAll(request);
+        Assert.assertNotEquals(0,messagePage.getTotalElements());
     }
 
 }

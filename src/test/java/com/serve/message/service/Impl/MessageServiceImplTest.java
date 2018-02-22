@@ -75,6 +75,16 @@ public class MessageServiceImplTest {
         log.info("【查询列表】result={}",messageDTOPage);
         Assert.assertNotEquals(0,messageDTOPage.getTotalElements());
     }
+    /**
+     * 查询所有数据
+     */
+    @Test
+    public void findlist2(){
+        PageRequest request = new PageRequest(0,5);
+        Page<MessageDTO> result = messageService.findList(request);
+        log.info("【查询列表】result={}",result);
+        Assert.assertNotEquals(0,result.getTotalElements());
+    }
 
     /**
      * 撤销订单测试类（修改订单状态）

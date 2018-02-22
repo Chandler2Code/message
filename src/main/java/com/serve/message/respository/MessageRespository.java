@@ -18,6 +18,5 @@ import java.util.List;
 public interface MessageRespository extends JpaRepository<Message,String> {
     Message findByMessageId(String MessageId);
     Page<Message> findByOpenId(String openid, Pageable pageable);
-    List<Message> findByCreateTime(Date start,Date end);
 
 }
