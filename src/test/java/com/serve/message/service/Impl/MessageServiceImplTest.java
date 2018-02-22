@@ -35,7 +35,8 @@ public class MessageServiceImplTest {
     private MessageService messageService;
 
     private final String OPENID = "xxx465482";
-    private final String MESSAGEID = "1519262655330913515";
+    private final String MESSAGEID1 = "1519287397881100599";
+    private final String MESSAGEID2 = "1519298469786407936";
     /**
      * 创建订单测试类
      */
@@ -49,7 +50,7 @@ public class MessageServiceImplTest {
         messageDTO.setAvater("http://www.xw.qqcom.xxfj");
         messageDTO.setPhone("18382469064");
         messageDTO.setMessageType("1");
-        messageDTO.setOpenId("xxx465482");
+        messageDTO.setOpenId("hhh4582zgb");
         MessageDTO result = messageService.create(messageDTO);
         log.info("【创建订单】result={}",result);
     }
@@ -59,7 +60,7 @@ public class MessageServiceImplTest {
      */
     @Test
     public  void findOneTest(){
-        MessageDTO result = messageService.findByMessageId(MESSAGEID);
+        MessageDTO result = messageService.findByMessageId(MESSAGEID1);
         log.info("【查询发布订单】result={}",result);
         Assert.assertNotNull(result);
     }
@@ -80,7 +81,7 @@ public class MessageServiceImplTest {
      */
     @Test
     public void cancelTest(){
-        MessageDTO messageDTO = messageService.findByMessageId(MESSAGEID);
+        MessageDTO messageDTO = messageService.findByMessageId(MESSAGEID1);
         MessageDTO result = messageService.cancel(messageDTO);
         Assert.assertEquals(MessageStatusEnum.CANCEL.getCode(),result.getMessageStatus());
     }
@@ -90,9 +91,17 @@ public class MessageServiceImplTest {
      */
     @Test
     public void payTest(){
-        MessageDTO messageDTO = messageService.findByMessageId(MESSAGEID);
+        MessageDTO messageDTO = messageService.findByMessageId(MESSAGEID1);
         MessageDTO result = messageService.paid(messageDTO);
         Assert.assertEquals(MessagePayStatusEnum.SUCCESS.getCode(),result.getPayStatus());
+    }
+    /**
+     * 查询订单是否属于当前用户
+     */
+    @Test
+    public void checkTest(){
+       MessageDTO messageDTO =  messageService.check(OPENID,MESSAGEID1);
+       Assert.assertEquals(OPENID,messageDTO.getOpenId());
     }
 
 }

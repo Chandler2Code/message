@@ -1,6 +1,7 @@
 package com.serve.message.respository;
 
 import com.serve.message.entity.Message;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class MessageRespositoryTest {
     @Autowired
     private MessageRespository respository;
@@ -46,5 +48,12 @@ public class MessageRespositoryTest {
 //        Page<Message> result =  respository.findByOpenId("abcdefg",request);
 //        Assert.assertNotEquals(0,result.getTotalElements());
 //    }
+
+    @Test
+    public void findByMessageId(){
+        Message message = respository.findByMessageId("1519298469786407936");
+        log.info("【查询发布消息】message={}",message);
+        Assert.assertNotNull(message);
+    }
 
 }

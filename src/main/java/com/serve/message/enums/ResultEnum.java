@@ -14,7 +14,9 @@ public enum ResultEnum {
     MESSAGEORDER_UPDATE_FAIL(11,"更新失败"),
     MESSAGEORDER_STATUS_ERROR(12,"订单状态不正确"),
     MESSAGEORDER_PAY_STATUS_ERROR(13,"订单支付状态不正确"),
-    MESSAGEORDER_PAY_FAIL(14,"订单支付失败")
+    MESSAGEORDER_PAY_FAIL(14,"订单支付失败"),
+    MESSAGEORDER_OWNER_ERROR(15,"该订单不属于当前用户"),
+    MESSAGEORDER_NOT_EXIST(16,"该订单不存在"),
     ;
     private Integer code;
     private String msg;

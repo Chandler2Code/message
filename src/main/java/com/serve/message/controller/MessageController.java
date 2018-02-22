@@ -47,7 +47,7 @@ public class MessageController {
 
         MessageDTO messageDTO = MessageForm2MessageDTO.convert(messageForm);
         /**
-         * 手工输入用户信息，后面或专门构造一个用户对象用户传输用户信息
+         * 手工输入用户信息，后面或专门构造一个用户对象用户传输用户信息  在service层实现
          */
         UserInfo userInfo = new UserInfo();
         messageDTO.setName(userInfo.getName());
@@ -73,4 +73,14 @@ public class MessageController {
         return  ResultVOUtil.success(messageDTOPage.getContent());
     }
     //取消发布（修改订单状态）
+    @PostMapping("/cancel")
+    public ResultVO cancel(@RequestParam("openId") String openId,
+                           @RequestParam("messageId")String messageId){
+        /**
+         *判断messageId是否属于该用户
+         */
+        MessageDTO messageDTO = messageService.check(openId,messageId);
+        messageService.cancel(messageDTO);
+        return ResultVOUtil.success();
+    }
 }

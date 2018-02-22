@@ -39,4 +39,8 @@ public interface MessageService {
      * 6.支付发布费
      */
     MessageDTO paid(MessageDTO messageDTO);
+    /**
+     * 查询订单是否属于本人
+     */
+    MessageDTO check(String openid,String messageid);
 }

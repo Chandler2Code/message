@@ -123,5 +123,23 @@ public class MessageServiceImpl implements MessageService {
         }
         return messageDTO;
     }
+    /**
+     * 查询订单是否属于本人
+     */
+    @Override
+    public MessageDTO check(String openid, String messageid) {
+        MessageDTO messageDTO = new MessageDTO();
+        Message message = messageRespository.findByMessageId(messageid);
+        if(message == null){
+            log.error("【订单查询】无该订单");
+            throw new ServeException(ResultEnum.MESSAGEORDER_NOT_EXIST);
+        }
+        BeanUtils.copyProperties(message,messageDTO);
+        if (!messageDTO.getOpenId().equals(openid)){
+            log.error("【查询订单】订单openid不一致openid={},messageDTO={}",openid,messageDTO);
+            throw new ServeException(ResultEnum.MESSAGEORDER_OWNER_ERROR);
+        }
+        return messageDTO;
+    }
 }
 

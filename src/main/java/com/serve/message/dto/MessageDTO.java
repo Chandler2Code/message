@@ -6,6 +6,8 @@ package com.serve.message.dto;
  *消息传输中间量
  */
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.serve.message.util.serializer.Date2LongSerializer;
 import lombok.Data;
 
 
@@ -64,9 +66,11 @@ public class MessageDTO {
     /**
      * 13.消息创建时间
      */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
     /**
      * 14.消息更新时间
      */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 }
