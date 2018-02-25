@@ -32,6 +32,10 @@ public interface MessageService {
      */
     Page<MessageDTO>findList(Pageable pageable);
     /**
+     * 5.查询所有在线发布
+     */
+    Page<MessageDTO>findListByStatus(Integer status, Pageable pageable);
+    /**
      * 5.取消发布
      */
     MessageDTO cancel(MessageDTO messageDTO);

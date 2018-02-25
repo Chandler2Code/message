@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -80,8 +81,9 @@ public class MessageServiceImplTest {
      */
     @Test
     public void findlist2(){
-        PageRequest request = new PageRequest(0,5);
-        Page<MessageDTO> result = messageService.findList(request);
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        PageRequest request = new PageRequest(0,5,sort);
+        Page<MessageDTO> result = messageService.findListByStatus(0,request);
         log.info("【查询列表】result={}",result);
         Assert.assertNotEquals(0,result.getTotalElements());
     }

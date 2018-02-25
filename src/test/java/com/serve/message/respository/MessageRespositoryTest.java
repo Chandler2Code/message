@@ -59,13 +59,14 @@ public class MessageRespositoryTest {
     }
 
     /**
-     * 通过时间查询数据
+     * 查询在线数据所有数据（并按照时间降序排列）
      */
     @Test
-    public void findAll(){
+    public void findAllByStatus(){
         PageRequest request = new PageRequest(0,10);
-        Page<Message>messagePage = respository.findAll(request);
+        Page<Message>messagePage = respository.findByMessageStatus(1,request);
         Assert.assertNotEquals(0,messagePage.getTotalElements());
     }
+
 
 }

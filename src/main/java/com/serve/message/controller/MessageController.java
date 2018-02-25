@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -68,17 +69,18 @@ public class MessageController {
             log.error("【查询订单列表】openid为空");
             throw new ServeException(ResultEnum.PARAM_ERROR);
         }
-
-        PageRequest request = new PageRequest(page,size);
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        PageRequest request = new PageRequest(page,size,sort);
         Page<MessageDTO>messageDTOPage = messageService.findListByOpenId(openid,request);
         return  ResultVOUtil.success(messageDTOPage.getContent());
     }
     //查询发布列表--直接查询
     @GetMapping("/all")
     public ResultVO<List<MessageDTO>> allMessage(@RequestParam(value = "page",defaultValue = "0") Integer page,
-                                                 @RequestParam(value = "size",defaultValue = "10") Integer size){
-        PageRequest request = new PageRequest(page,size);
-        Page<MessageDTO>messageDTOPage = messageService.findList(request);
+                                                 @RequestParam(value = "size",defaultValue = "3") Integer size){
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        PageRequest request = new PageRequest(page,size,sort);
+        Page<MessageDTO>messageDTOPage = messageService.findListByStatus(0,request);
         return ResultVOUtil.success(messageDTOPage.getContent());
     }
     //取消发布（修改订单状态）

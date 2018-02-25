@@ -74,12 +74,21 @@ public class MessageServiceImpl implements MessageService {
         return new PageImpl<MessageDTO>(messageDTOList,pageable,messagePage.getTotalElements());
     }
     /**
-     * 查询所有发布消息
+     * 查询所有发布消息（包含在线和非在线所有发布）
      * TODO  用SpecificationExecutor实现按照天数查找
      */
     @Override
     public Page<MessageDTO> findList(Pageable pageable) {
         Page<Message> messagePage = messageRespository.findAll(pageable);
+        List<MessageDTO>messageDTOList = Message2MessageDTOConverter.convert(messagePage.getContent());
+        return new PageImpl<MessageDTO>(messageDTOList,pageable,messagePage.getTotalElements());
+    }
+    /**
+     * 查询所有在线发布
+     */
+    @Override
+    public Page<MessageDTO> findListByStatus(Integer status, Pageable pageable) {
+        Page<Message>messagePage = messageRespository.findByMessageStatus(status,pageable);
         List<MessageDTO>messageDTOList = Message2MessageDTOConverter.convert(messagePage.getContent());
         return new PageImpl<MessageDTO>(messageDTOList,pageable,messagePage.getTotalElements());
     }
