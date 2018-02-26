@@ -6,6 +6,7 @@ import com.serve.message.dto.MessageDTO;
 import com.serve.message.entity.UserInfo;
 import com.serve.message.enums.ResultEnum;
 import com.serve.message.exception.ServeException;
+import com.serve.message.form.AlterMessageStatus;
 import com.serve.message.form.MessageForm;
 import com.serve.message.service.MessageService;
 import com.serve.message.util.ResultVOUtil;
@@ -93,5 +94,17 @@ public class MessageController {
         MessageDTO messageDTO = messageService.check(openId,messageId);
         messageService.cancel(messageDTO);
         return ResultVOUtil.success();
+    }
+    @PostMapping("/cancel2")
+    public ResultVO cancel(@Valid AlterMessageStatus messageStatus,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.error("【创建消息】参数不正确，messageStatus={}",messageStatus);
+            throw new ServeException(ResultEnum.PARAM_ERROR.getCode(),
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        MessageDTO messageDTO = messageService.check(messageStatus.getOpenId(),messageStatus.getMessageId());
+        messageService.cancel(messageDTO);
+        return ResultVOUtil.success();
+
     }
 }
