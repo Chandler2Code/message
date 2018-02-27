@@ -39,7 +39,7 @@ public class OrderMasterServiceImplTest {
         order.setTitle("代取快递");
         order.setContent("百世快递123456");
         order.setRemark("6点送到寝室");
-        order.setName(userInfo.getName());
+        order.setName("Chandler");
         order.setOrderType(1);
         order.setAddress(userInfo.getAddress());
         order.setPhone(userInfo.getPhone());

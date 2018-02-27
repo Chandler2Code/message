@@ -3,12 +3,14 @@ package com.serve.message.controller;
 import com.serve.message.VO.ResultVO;
 import com.serve.message.converter.MessageForm2MessageDTO;
 import com.serve.message.dto.MessageDTO;
+import com.serve.message.dto.UserInfoDTO;
 import com.serve.message.entity.UserInfo;
 import com.serve.message.enums.ResultEnum;
 import com.serve.message.exception.ServeException;
 import com.serve.message.form.AlterMessageStatus;
 import com.serve.message.form.MessageForm;
 import com.serve.message.service.MessageService;
+import com.serve.message.service.UserInfoService;
 import com.serve.message.util.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     //创建发布消息
     @PostMapping("/create")
     public ResultVO<Map<String,String>> create(@Valid MessageForm messageForm, BindingResult bindingResult) {
@@ -52,9 +57,14 @@ public class MessageController {
         /**
          * 手工输入用户信息，后面或专门构造一个用户对象用户传输用户信息  在service层实现
          */
-        UserInfo userInfo = new UserInfo();
-        messageDTO.setName(userInfo.getName());
-        messageDTO.setAvater(userInfo.getAvater());
+        //TODO must
+        UserInfoDTO userInfoDTO = userInfoService.findByOpenid(messageDTO.getOpenId());
+        if (userInfoDTO == null){
+            log.error("【查询用户】该用户没有授权此微信平台");
+            throw new ServeException(ResultEnum.PARAM_ERROR);
+        }
+        messageDTO.setName(userInfoDTO.getWechatName());
+        messageDTO.setAvater(userInfoDTO.getAvater());
         MessageDTO  createResult =messageService.create(messageDTO);
 
         Map<String,String> map = new HashMap<>();

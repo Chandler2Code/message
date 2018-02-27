@@ -1,21 +1,17 @@
-package com.serve.message.entity;
+package com.serve.message.dto;
+
+/*Created by Chandler
+ *createDate:2018/2/27
+ *createTime:10:21
+ *
+ */
 
 import com.serve.message.enums.UserInfoCerStatusEnum;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Date;
-
-/*Created by Chandler
- *createDate:2018/2/22
- *createTime:12:32
- *用户信息对象
- */
 @Data
-@Entity
-public class UserInfo {
-    @Id
+public class UserInfoDTO {
     private String openId ;
     private String wechatName;
     /**
