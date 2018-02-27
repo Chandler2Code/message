@@ -71,6 +71,5 @@ public class MessageDTO {
     /**
      * 14.消息更新时间
      */
-    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 }

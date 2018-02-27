@@ -14,5 +14,6 @@ public class UserInfo {
     private String name = "Chandler";
     private String avater = "http://www.xw.qqcom.xxfj";
     private String address = "成都中医药大学11公寓323";
+    private String phone  = "18382469064";
 
 }

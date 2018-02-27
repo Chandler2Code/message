@@ -58,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
 
         Message message = messageRespository.findByMessageId(messageId);
         if(message == null){
-            throw new ServeException(ResultEnum.MESSAGE_NOT_EXIST);
+            throw new ServeException(ResultEnum.ORDER_NOT_EXIST);
         }
         MessageDTO messageDTO  =new MessageDTO();
         BeanUtils.copyProperties(message,messageDTO);
@@ -144,7 +144,7 @@ public class MessageServiceImpl implements MessageService {
         Message message = messageRespository.findByMessageId(messageid);
         if(message == null){
             log.error("【订单查询】无该订单");
-            throw new ServeException(ResultEnum.MESSAGEORDER_NOT_EXIST);
+            throw new ServeException(ResultEnum.ORDER_NOT_EXIST);
         }
         BeanUtils.copyProperties(message,messageDTO);
         if (!messageDTO.getOpenId().equals(openid)){

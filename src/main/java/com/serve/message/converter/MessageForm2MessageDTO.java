@@ -7,9 +7,13 @@ package com.serve.message.converter;
  */
 
 import com.serve.message.dto.MessageDTO;
+import com.serve.message.entity.Message;
 import com.serve.message.form.MessageForm;
+import com.serve.message.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MessageForm2MessageDTO {
+
     public static MessageDTO convert(MessageForm messageForm){
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setOpenId(messageForm.getOpenId());
