@@ -94,6 +94,16 @@ public class MessageController {
         Page<MessageDTO>messageDTOPage = messageService.findListByStatus(0,request);
         return ResultVOUtil.success(messageDTOPage.getContent());
     }
+    //通过消息id查询数据
+    @GetMapping("/detial")
+    public ResultVO messageDetail(@RequestParam("messageId") String messageId){
+        MessageDTO messageDTO = messageService.findByMessageId(messageId);
+        if(messageDTO == null){
+            log.error("【查询消息详细】无此消息");
+            throw new ServeException(ResultEnum.MESSAGE_NOT_EXIST);
+        }
+        return ResultVOUtil.success(messageDTO);
+    }
     //取消发布（修改订单状态）
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam("openId") String openId,
